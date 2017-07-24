@@ -7,23 +7,6 @@ from micromailer.extensions import mailer
 LOG = logging.getLogger(__name__)
 
 
-def send_email(to_, title, plain_content, rich_content=None):
-    """Formatting and sending an email with some hardcoded fields coming from the config file
-
-    :param to_: The email of the recipient
-    :type to_: email
-    :param title: The title of the email
-    :type title: str
-    :param plain_content: The plain/text content that is not enriched
-    :type plain_content: str
-    :param rich_content: Optional enriched HTML content that will be send in email body
-    :type rich_content: str
-    """
-    config = app.config
-    from_ = config['NO_REPLY_CLUEPOINTS']
-    _send_email(from_, to_, title, plain_content, rich_content)
-
-
 def _send_email(from_, to_, title, plain_content, rich_content=None):
     """Send an email
 
@@ -46,3 +29,20 @@ def _send_email(from_, to_, title, plain_content, rich_content=None):
                          plain=plain_content,
                          rich=rich_content)
     mailer.send(message)
+
+
+def send_email(to_, title, plain_content, rich_content=None):
+    """Formatting and sending an email with some hardcoded fields coming from the config file
+
+    :param to_: The email of the recipient
+    :type to_: str
+    :param title: The title of the email
+    :type title: str
+    :param plain_content: The plain/text content that is not enriched
+    :type plain_content: str
+    :param rich_content: Optional enriched HTML content that will be send in email body
+    :type rich_content: str
+    """
+    config = app.config
+    from_ = config['NO_REPLY_CLUEPOINTS']
+    _send_email(from_, to_, title, plain_content, rich_content)
